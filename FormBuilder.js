@@ -4,47 +4,52 @@ class FormBuilder
 		this.formEl = document.querySelector(selector);
 		this.schema = schema;
 		this.state = {};
-		this.form(schema);
+		this.newHtml = '';
+		this.add(schema).setForm();
 	}
 
-	form = schema => {
-		this.newHtml = schema.map(fieldData => {
-			this.setState(fieldData);
+	add = fieldData => {
+		if (Array.isArray(fieldData)) {
+			fieldData.forEach( this.add  );
+			return this;
+		}
 
-			let html = '';
+		this.setState(fieldData);
 
-			if (this.state.type == 'hidden') {
-				html = this.getInputHtml();
-			}
-			else if (this.state.type == 'checkbox') {
-				html = this.getCheckboxHtml();
-			}
-			else if (this.state.type == 'raw_html') {
-				html = this.state.html;
-			}
-			else {
-	            html = this.getContainerHtml();
-	            html += this.getLabelHtml();
-	            html += '<div class="col-sm-12">';
-	            html += this.getElementHtml();
-	            
-	            html += this.getError();
-	            html += '</div></div>';
-			}
-            return html;
-		});
-
-		this.setForm();
+		if (this.state.type == 'hidden') {
+			this.newHtml += this.getInputHtml();
+		}
+		else if (this.state.type == 'checkbox') {
+			this.newHtml += this.getCheckboxHtml();
+		}
+		else if (this.state.type == 'raw_html') {
+			this.newHtml += this.state.html;
+		}
+		else {
+            this.newHtml += this.getContainerHtml();
+            this.newHtml += this.getLabelHtml();
+            this.newHtml += '<div class="col-sm-12">';
+            this.newHtml += this.getElementHtml();
+            
+            this.newHtml += this.getError();
+            this.newHtml += '</div></div>';
+		}
+		return this;
 	}
 
 	setForm = () => {
 		this.formEl.innerHTML = this.newHtml;
-		this.newHtml = '';
+		return this.reset();
 	}
 
 	update = () => {
 		this.formEl.innerHTML += this.newHtml;
+		return this.reset();
+	}
+
+	reset = () => {
 		this.newHtml = '';
+		return this;
 	}
 
 	getError = () => this.state.error ? '<div class="alert alert-danger mt-1 mb-1">'+ this.state.error +'</div>' : '';
