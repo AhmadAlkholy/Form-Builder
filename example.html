@@ -11,7 +11,10 @@
 
 	<script type="text/javascript" src="FormBuilder.js"></script>
 	<script type="text/javascript">
-		
+		let data = [
+			{type: "number", name: "description", label: "Description", id: "desc", class: "desc", container_class: "descContainer"}
+		];
+		const formBuilder = new FormBuilder('#exampleForm', data);
 	</script>
 </body>
 </html>
