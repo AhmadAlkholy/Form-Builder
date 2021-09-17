@@ -34,7 +34,17 @@ class FormBuilder
             return html;
 		});
 
+		this.setForm();
+	}
+
+	setForm = () => {
 		this.formEl.innerHTML = this.newHtml;
+		this.newHtml = '';
+	}
+
+	update = () => {
+		this.formEl.innerHTML += this.newHtml;
+		this.newHtml = '';
 	}
 
 	getError = () => this.state.error ? '<div class="alert alert-danger mt-1 mb-1">'+ this.state.error +'</div>' : '';
@@ -66,7 +76,7 @@ class FormBuilder
 	getElementHtml = () => {
 		let html = '';
 		switch(this.state.type){
-			case 'text':
+			case 'select':
 				html = this.getSelectHtml();
 				break;
 			case 'radio':
@@ -84,8 +94,14 @@ class FormBuilder
 
 	getSelectHtml = () => {
 		let html = '<select '+ this.getElAttrs() +'>';
-
+		html += this.state.options.map( option => {
+			const name = option.name || option;
+			const value = option.value || option;
+			return '<option value="'+ value +'">'+ name +'</option>';
+		})
+		
 		html += '</select>';
+		return html;
 	}
 	
 	getRadioHtml = () => {
