@@ -50,8 +50,8 @@ class FormBuilder
 		this.state.containerClassName = this.getData(fieldData, 'container_class');
 		this.state.value = this.getData(fieldData, 'value');
 		this.state.placeholder = this.getData(fieldData, 'placeholder');
-		this.state.options = this.getData(fieldData, 'options');
-		this.state.attrbs = this.getData(fieldData, 'attrbs');
+		this.state.options = this.getData(fieldData, 'options', []);
+		this.state.attrs = this.getData(fieldData, 'attrs');
 		this.state.error = this.getData(fieldData, 'error');
 		this.state.html = this.getData(fieldData, 'html');
 	}
@@ -83,21 +83,31 @@ class FormBuilder
 	}
 
 	getSelectHtml = () => {
+		let html = '<select '+ this.getElAttrs() +'>';
 
+		html += '</select>';
 	}
 	
 	getRadioHtml = () => {
 
 	}
 	
-	getTextAreaHtml = () => {
-
-	}
+	getTextAreaHtml = () => '<textarea '+ this.getElAttrs() +'>'+ this.state.value +'</textarea>';
 	
-	getInputHtml = () => '<input type="'+ this.state.type +'" name="'+ this.state.name +'" class="'+ this.state.className +'" placeholder="'+ this.state.placeholder +'" value="'+ this.state.value +'">';
+	getInputHtml = () => '<input type="'+ this.state.type +'" '+ this.getElAttrs() +' value="'+ this.state.value +'">';
 
 	stringToTitle = (str) => {
 	    const words = str.replace(/_/g, ' ').toLowerCase().split(' ');
-	    return words.map( splitStr => word.charAt(0).toUpperCase() + word.substring(1) ).join(' ');
+	    return words.map( word => word.charAt(0).toUpperCase() + word.substring(1) ).join(' ');
+	}
+
+	getElAttrs = () => {
+		let html = ''; 
+		if (this.state.name) html += 'name="'+this.state.name+'"';
+		if (this.state.id) html += 'id="'+this.state.id+'"';
+		if (this.state.className) html += 'class="'+this.state.className+'"';
+		if (this.state.placeholder) html += 'placeholder="'+this.state.placeholder+'"';
+		if (this.state.attrs) html += ' '+this.state.attrs;
+		return html;
 	}
 }
