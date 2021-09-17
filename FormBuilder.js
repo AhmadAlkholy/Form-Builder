@@ -58,7 +58,10 @@ class FormBuilder
 
 	getContainerHtml = () => '<div class="form-group '+ this.state.containerClassName +'">';
 
-	getLabelHtml = () => (this.state.label != '') ? '<label for="'+this.state.id+'" class="col-sm-4">'+this.state.label+'</label>' : '';
+	getLabelHtml = () => {
+		const label = this.state.label || this.stringToTitle(this.state.name);
+		return '<label for="'+this.state.id+'" class="col-sm-4">'+label+'</label>';
+	}
 
 	getElementHtml = () => {
 		let html = '';
@@ -92,4 +95,9 @@ class FormBuilder
 	}
 	
 	getInputHtml = () => '<input type="'+ this.state.type +'" name="'+ this.state.name +'" class="'+ this.state.className +'" placeholder="'+ this.state.placeholder +'" value="'+ this.state.value +'">';
+
+	stringToTitle = (str) => {
+	    const words = str.replace(/_/g, ' ').toLowerCase().split(' ');
+	    return words.map( splitStr => word.charAt(0).toUpperCase() + word.substring(1) ).join(' ');
+	}
 }
