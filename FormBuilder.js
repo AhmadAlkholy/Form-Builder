@@ -19,9 +19,6 @@ class FormBuilder
 		if (this.state.type == 'hidden') {
 			this.newHtml += this.getInputHtml();
 		}
-		else if (this.state.type == 'checkbox') {
-			this.newHtml += this.getCheckboxHtml();
-		}
 		else if (this.state.type == 'raw_html') {
 			this.newHtml += this.state.html;
 		}
@@ -87,6 +84,9 @@ class FormBuilder
 			case 'radio':
 				html = this.getRadioHtml();
 				break;
+			case 'checkbox':
+				html = this.getCheckboxHtml();
+				break;
 			case 'textarea':
 				html = this.getTextAreaHtml();
 				break;
@@ -96,6 +96,8 @@ class FormBuilder
 		}
 		return html;
 	}
+
+	getCheckboxHtml = () => this.getRadioHtml();
 
 	getSelectHtml = () => {
 		let html = '<select '+ this.getElAttrs() +'>';
@@ -110,7 +112,19 @@ class FormBuilder
 	}
 	
 	getRadioHtml = () => {
-
+		let html = '';
+		this.state.options.forEach( option => {
+			const name = option.name || option;
+			const value = option.value || option;
+			html += '<div class="form-check">';
+			html += '<label class="form-check-label"><input type="'+ this.state.type +'" name="'+this.state.name+'" value="'+value+'" class="form-check-input '+this.state.className+'" '+this.state.attrs;
+			if (value == this.state.value) {
+				html += ' checked';
+			}
+			html += '>';
+  			html += name + '</label></div>';
+		});
+		return html;
 	}
 	
 	getTextAreaHtml = () => '<textarea '+ this.getElAttrs() +'>'+ this.state.value +'</textarea>';

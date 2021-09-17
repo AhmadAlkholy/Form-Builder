@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Form Builder Example</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
 </head>
 <body>
 	<form id="exampleForm">
@@ -12,7 +13,9 @@
 	<script type="text/javascript" src="FormBuilder.js"></script>
 	<script type="text/javascript">
 		let data = [
-			{type: "number", name: "description", id: "desc", class: "desc", container_class: "descContainer"}
+			{type: "number", name: "description", id: "desc", class: "desc", container_class: "descContainer"},
+			{type: "radio", name: "city", id: "city", class: "city", container_class: "city-container", options: ["New Yourk", "London", "Paris"], value: 'London'},
+			{type: "checkbox", name: "city", id: "city", class: "city", container_class: "city-container", options: [{name: "New Yourk", value: 1}, "London", "Paris"], value: 'London'}
 		];
 		const formBuilder = new FormBuilder('#exampleForm', data);
 	</script>
