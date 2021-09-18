@@ -13,7 +13,8 @@
 	<script type="text/javascript" src="FormBuilder.js"></script>
 	<script type="text/javascript">
 		let data = [
-			{type: "number", name: "description", id: "desc", class: "desc", container_class: "descContainer"},
+			{type: "textarea", name: "description", id: "desc", class: "desc", container_class: "descContainer"},
+			{type: "select", name: "city", id: "city", class: "city", container_class: "city-container", options: ["New Yourk", "London", "Paris"], value: 'London'},
 			{type: "radio", name: "city", id: "city", class: "city", container_class: "city-container", options: ["New Yourk", "London", "Paris"], value: 'London'},
 			{type: "checkbox", name: "city", id: "city", class: "city", container_class: "city-container", options: [{name: "New Yourk", value: 1}, "London", "Paris"], value: 'London'}
 		];

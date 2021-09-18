@@ -31,6 +31,7 @@ class FormBuilder
             this.newHtml += this.getError();
             this.newHtml += '</div></div>';
 		}
+		this.schema.push(fieldData);
 		return this;
 	}
 
@@ -97,16 +98,34 @@ class FormBuilder
 		return html;
 	}
 
-	getCheckboxHtml = () => this.getRadioHtml();
+	getCheckboxHtml = () => {
+		let html = '';
+		this.state.options.forEach( option => {
+			const name = option.name || option;
+			const value = option.value || option;
+			html += '<div class="form-check">';
+			html += '<label class="form-check-label"><input type="'+ this.state.type +'" name="'+this.state.name+'" value="'+value+'" class="form-check-input '+this.state.className+'" '+this.state.attrs;
+			if (this.state.value.indexOf(value) != -1) {
+				html += ' checked';
+			}
+			html += '>';
+  			html += name + '</label></div>';
+		});
+		return html;
+	};
 
 	getSelectHtml = () => {
 		let html = '<select '+ this.getElAttrs() +'>';
-		html += this.state.options.map( option => {
+		this.state.options.forEach( option => {
 			const name = option.name || option;
 			const value = option.value || option;
-			return '<option value="'+ value +'">'+ name +'</option>';
-		})
-		
+			html += '<option value="'+ value +'"';
+			if (value == this.state.value) {
+				html += ' selected';
+			}
+			html += '>'+ name +'</option>';
+			return html;
+		});
 		html += '</select>';
 		return html;
 	}
@@ -140,7 +159,7 @@ class FormBuilder
 		let html = ''; 
 		if (this.state.name) html += 'name="'+this.state.name+'"';
 		if (this.state.id) html += 'id="'+this.state.id+'"';
-		if (this.state.className) html += 'class="'+this.state.className+'"';
+		if (this.state.className) html += 'class="form-control '+this.state.className+'"';
 		if (this.state.placeholder) html += 'placeholder="'+this.state.placeholder+'"';
 		if (this.state.attrs) html += ' '+this.state.attrs;
 		return html;
