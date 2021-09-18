@@ -1,12 +1,14 @@
 class FormBuilder
 {
 	constructor(selector, schema=[]) {
-		this.formEl = document.querySelector(selector);
+		this.setFormEl(selector);
 		this.schema = schema;
 		this.state = {};
 		this.newHtml = '';
 		this.add(schema).setForm();
 	}
+
+	setFormEl = selector => this.formEl = (selector.nodeName == undefined) ? document.querySelector(selector) : selector;
 
 	add = fieldData => {
 		if (Array.isArray(fieldData)) {
@@ -163,5 +165,13 @@ class FormBuilder
 		if (this.state.placeholder) html += 'placeholder="'+this.state.placeholder+'"';
 		if (this.state.attrs) html += ' '+this.state.attrs;
 		return html;
+	}
+}
+
+if (window.jQuery) {  
+    $.fn.FormBuilder = function(schema=[]){
+	    this.each(function(){
+	        return new FormBuilder($(this)[0], schema);
+	    });
 	}
 }
