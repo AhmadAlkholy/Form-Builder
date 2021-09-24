@@ -43,7 +43,7 @@ attrs | onchange="inputChanged" | any custom attributes you want to add to the i
 error | First Name is required | the error message to show the user if there's an error | No Default Value
 html | ```<button>Click Me</button>``` | html code to add if type attribute = raw_html | No Default Value
 
-## Select Box:
+## Select Box and Radio Button:
 If you want to make a select box you need to do something like this
 ```js
 { type: "select", name: "city", options: ['New York', 'London'], value: "London" }
@@ -55,6 +55,8 @@ But if you want to make the value different from name for the option you can do:
 { type: "select", name: "city", options: [{name: 'New York', value: 'new_york'}, {name: 'London', value: 'london'}], value: "london" }
 ```
 In previous example for each option ``name`` is what will appear for the user, where the actual value is ``value``
+
+The same applies for radio buttons but you should change the type to ```radio```
 
 ## Raw HTML
 
