@@ -163,7 +163,7 @@ class FormBuilder
 		let html = ''; 
 		if (this.state.name) html += 'name="'+this.state.name+'"';
 		if (this.state.id) html += 'id="'+this.state.id+'"';
-		if (this.state.className) html += 'class="form-control '+this.state.className+'"';
+		html += this.state.className ? 'class="form-control '+this.state.className+'"' : 'class="form-control"';
 		if (this.state.placeholder) html += 'placeholder="'+this.state.placeholder+'"';
 		if (this.state.attrs) html += ' '+this.state.attrs;
 		return html;
