@@ -26,7 +26,7 @@ You can also use it with Jquery:
 const formBuilder = $('#exampleForm').FormBuilder(data);
 ```
 
-## [Attributes to add and their default values:](#attributes-table)
+## Attributes to add and their default values:
 
 Attribute | Example | Descriptioin | Default Value
 --- | --- | --- | ---
