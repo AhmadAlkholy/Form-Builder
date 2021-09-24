@@ -1,7 +1,7 @@
 class FormBuilder
 {
-	constructor(selector, schema=[]) {
-		this.setFormEl(selector);
+	constructor(schema=[], selector=null) {
+		if (selector) this.setFormEl(selector);
 		this.schema = schema;
 		this.state = {};
 		this.newHtml = '';
@@ -22,7 +22,7 @@ class FormBuilder
 			this.newHtml += this.getInputHtml();
 		}
 		else if (this.state.type == 'raw_html') {
-			this.newHtml += this.state.html;
+			this.newHtml += this.state.value;
 		}
 		else {
             this.newHtml += this.getContainerHtml();
@@ -38,8 +38,10 @@ class FormBuilder
 	}
 
 	setForm = () => {
-		this.formEl.innerHTML = this.newHtml;
-		return this.reset();
+		if (this.formEl != undefined) {
+			this.formEl.innerHTML = this.newHtml;
+			return this.reset();
+		}
 	}
 
 	update = () => {
@@ -68,7 +70,7 @@ class FormBuilder
 		this.state.options = this.getData(fieldData, 'options', []);
 		this.state.attrs = this.getData(fieldData, 'attrs');
 		this.state.error = this.getData(fieldData, 'error');
-		this.state.html = this.getData(fieldData, 'html');
+		this.state.html = this.getData(fieldData, 'value');
 	}
 
 	getContainerHtml = () => '<div class="form-group '+ this.state.containerClassName +'">';
@@ -114,7 +116,7 @@ class FormBuilder
   			html += name + '</label></div>';
 		});
 		return html;
-	};
+	}
 
 	getSelectHtml = () => {
 		let html = '<select '+ this.getElAttrs() +'>';
@@ -131,7 +133,7 @@ class FormBuilder
 		html += '</select>';
 		return html;
 	}
-	
+
 	getRadioHtml = () => {
 		let html = '';
 		this.state.options.forEach( option => {
@@ -147,7 +149,7 @@ class FormBuilder
 		});
 		return html;
 	}
-	
+
 	getTextAreaHtml = () => '<textarea '+ this.getElAttrs() +'>'+ this.state.value +'</textarea>';
 	
 	getInputHtml = () => '<input type="'+ this.state.type +'" '+ this.getElAttrs() +' value="'+ this.state.value +'">';
@@ -166,12 +168,14 @@ class FormBuilder
 		if (this.state.attrs) html += ' '+this.state.attrs;
 		return html;
 	}
+
+	html = () => (this.formEl != undefined) ? this.formEl.innerHTML : this.newHtml;
 }
 
 if (window.jQuery) {  
     $.fn.FormBuilder = function(schema=[]){
 	    this.each(function(){
-	        return new FormBuilder($(this)[0], schema);
+	        return new FormBuilder(schema, $(this)[0]);
 	    });
 	}
 }
