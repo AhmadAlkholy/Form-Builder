@@ -5,7 +5,7 @@ class FormBuilder
 		this.schema = schema;
 		this.state = {};
 		this.newHtml = '';
-		this.add(schema).setForm();
+		this.add(schema).update();
 	}
 
 	setFormEl = selector => this.formEl = (selector.nodeName == undefined) ? document.querySelector(selector) : selector;
@@ -45,8 +45,10 @@ class FormBuilder
 	}
 
 	update = () => {
-		this.formEl.innerHTML += this.newHtml;
-		return this.reset();
+		if (this.formEl != undefined) {
+			this.formEl.innerHTML += this.newHtml;
+			return this.reset();
+		}
 	}
 
 	reset = () => {
