@@ -1,5 +1,5 @@
 # Form Builder
-#### Library for creating data oriented html forms.
+#### Library for creating data oriented html bootstrap forms.
 
 ## Usage:
 
